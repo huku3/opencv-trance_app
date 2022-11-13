@@ -23,13 +23,19 @@ def paste_img(face_list):
     y = face_list[0][1]
     w = face_list[0][2]
     h = face_list[0][3]
-    face_img = cv2.imread(original_face_img)
-    mask_img = cv2.imread(original_mask_img)
-    resized_mask_img = cv2.resize(mask_img, dsize=(w, h))
-    cv2.imwrite("images/resize_otahuku.png", resized_mask_img)
-    face_img[y : y + h, x : x + w] = cv2.imread("images/resize_otahuku.png")
-    cv2.imwrite("images/hensin.png", face_img)
+    # face_img = cv2.imread(original_face_img)
+    # mask_img = cv2.imread(original_mask_img)
+    face_img = Image.open(original_face_img)
+    mask_img = Image.open(original_mask_img)
+    # resized_mask_img = cv2.resize(mask_img, dsize=(w, h))
+    resized_mask_img = mask_img.resize((w, h))
+    # cv2.imwrite("images/resize_otahuku.png", resized_mask_img)
+    resized_mask_img.save("images/resize_otahuku_pillow.png")
+    # face_img[y : y + h, x : x + w] = cv2.imread("images/resize_otahuku.png")
+    # cv2.imwrite("images/hensin.png", face_img)
     # face_img.paste(resized_mask_img, (x, y), resized_mask_img.split()[3])
+    face_img.paste(resized_mask_img, (x, y), resized_mask_img.split()[3])
+    face_img.save("images/hensin_pillow.png")
 
 
 face_list = find_face()
